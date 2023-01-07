@@ -1,0 +1,224 @@
+package hashicups
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+
+	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+)
+
+const (
+	empty = ""
+	tab   = "\t"
+)
+
+func PrettyJson(data interface{}) string {
+	buffer := new(bytes.Buffer)
+	encoder := json.NewEncoder(buffer)
+	encoder.SetIndent(empty, tab)
+
+	err := encoder.Encode(data)
+	if err != nil {
+		return empty
+	}
+	return buffer.String()
+}
+
+var (
+	_ resource.Resource                = &orderResource{}
+	_ resource.ResourceWithConfigure   = &orderResource{}
+	_ resource.ResourceWithImportState = &orderResource{}
+)
+
+func NewOrderResource() resource.Resource {
+	return &orderResource{}
+}
+
+type orderResource struct {
+}
+
+type OrderResourceModelP struct {
+	ID      types.String `tfsdk:"id"`
+	Name    types.String `tfsdk:"name"`
+	Members types.List   `tfsdk:"members"`
+}
+
+func (r *orderResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_adopt"
+}
+
+func (r *orderResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: "Fetches the list of family members.",
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Description: "Placeholder identifier attribute.",
+				Required:    true,
+			},
+			"name": schema.StringAttribute{
+				Description: "Placeholder identifier attribute.",
+				Computed:    true,
+			},
+			"members": schema.ListNestedAttribute{
+				Computed: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"hello": schema.StringAttribute{
+							Computed: true,
+						},
+						"demo": schema.StringAttribute{
+							Computed: true,
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func (r *orderResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
+		return
+	}
+
+}
+
+func (r *orderResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	tflog.Debug(ctx, "[anshuman] in Create ")
+
+	var plan *OrderResourceModelP
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	id := uuid.New()
+	plan.Name = types.StringValue(id.String())
+
+	sourceKeywordAttrTypes := map[string]attr.Type{
+		"hello": types.StringType,
+		"demo":  types.StringType,
+	}
+
+	elemType := types.ObjectType{AttrTypes: sourceKeywordAttrTypes}
+
+	// xdf := types.ListValueMust(elemType, []attr.Value{})
+
+	obj := map[string]attr.Value{
+		"hello": types.StringValue("s"),
+		"demo":  types.StringValue("s"),
+	}
+
+	objVal, d := types.ObjectValue(sourceKeywordAttrTypes, obj)
+	listVal, d := types.ListValue(elemType, []attr.Value{objVal})
+	plan.Members = listVal
+
+	// lst := []membersModelQNew{}
+	// x := membersModelQNew{}
+	// x["hello"] = types.StringValue("s")
+	// x["demo"] = types.StringValue("s")
+	// lst = append(lst, x)
+
+	// plan.Members = lst
+	// attributeList := []attr.Value{}
+	// attributeList = append(attributeList, x)
+
+	// bbq, dfg := types.ListValue(types.ListType{
+	// 	ElemType: types.ObjectType{},
+	// }, attributeList)
+	// plan.Members = bbq
+	// planMembers = append(planMembers, er)
+
+	// types.ListValue(types.ListType{}, er)
+
+	// path.Root("members")
+	// req.Plan.GetAttribute(ctx, path.Root("members"), asdf)
+	tflog.Debug(ctx, "[anshuman] "+PrettyJson(d))
+	resp.Diagnostics.Append(diags...)
+	// resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("members"), &pkcd)...)
+	diags = resp.State.Set(ctx, plan)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+}
+
+func (r *orderResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	tflog.Debug(ctx, "[anshuman] in Read ")
+
+	// Get current state
+	var state OrderResourceModelP
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	id := uuid.New()
+	state.ID = types.StringValue(id.String())
+	// state.Members = []membersModelQ{
+	// 	{
+	// 		Name:    types.StringValue("s"),
+	// 		Surname: types.StringValue("p"),
+	// 	},
+	// }
+	// types.ListValueFrom()
+
+	// resp.Diagnostics.Append(, &namePlan)...)
+
+	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+}
+
+func (r *orderResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	tflog.Debug(ctx, "[anshuman] in Update ")
+
+	// Retrieve values from plan
+	var plan OrderResourceModelP
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	id := uuid.New()
+	plan.ID = types.StringValue(id.String())
+	// plan.Members = []membersModelQ{
+	// 	{
+	// 		Name:    types.StringValue("s"),
+	// 		Surname: types.StringValue("p"),
+	// 	},
+	// }
+
+	diags = resp.State.Set(ctx, plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+}
+
+func (r *orderResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	tflog.Debug(ctx, "[anshuman] in Delete ")
+
+	var state OrderResourceModelP
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	return
+}
+
+func (r *orderResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}

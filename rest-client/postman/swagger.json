@@ -1,0 +1,737 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Rest API",
+    "contact": {}
+  },
+  "host": "localhost:8090",
+  "basePath": "/",
+  "securityDefinitions": {},
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/instance/read": {
+      "post": {
+        "summary": "Get All Instance",
+        "tags": [
+          "Instance"
+        ],
+        "operationId": "GetAllInstance",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetAllInstanceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/instance": {
+      "post": {
+        "summary": "Create Instance",
+        "tags": [
+          "Instance"
+        ],
+        "operationId": "CreateInstance",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateInstanceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Instance",
+        "tags": [
+          "Instance"
+        ],
+        "operationId": "UpdateInstance",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateInstanceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Instance",
+        "tags": [
+          "Instance"
+        ],
+        "operationId": "DeleteInstance",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteInstanceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/bucket/read": {
+      "post": {
+        "summary": "Get All bucket",
+        "tags": [
+          "Bucket"
+        ],
+        "operationId": "GetAllbucket",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetAllbucketRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/bucket": {
+      "post": {
+        "summary": "Create bucket",
+        "tags": [
+          "Bucket"
+        ],
+        "operationId": "Createbucket",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreatebucketRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "Update bucket",
+        "tags": [
+          "Bucket"
+        ],
+        "operationId": "Updatebucket",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdatebucketRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete bucket",
+        "tags": [
+          "Bucket"
+        ],
+        "operationId": "Deletebucket",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeletebucketRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/network/read": {
+      "post": {
+        "summary": "Get All network",
+        "tags": [
+          "Network"
+        ],
+        "operationId": "GetAllnetwork",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetAllnetworkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/network": {
+      "post": {
+        "summary": "Create network",
+        "tags": [
+          "Network"
+        ],
+        "operationId": "Createnetwork",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreatenetworkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "Update network",
+        "tags": [
+          "Network"
+        ],
+        "operationId": "Updatenetwork",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdatenetworkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete network",
+        "tags": [
+          "Network"
+        ],
+        "operationId": "Deletenetwork",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeletenetworkRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/postman": {
+      "get": {
+        "summary": "Postman Collection",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "PostmanCollection",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetAllInstanceRequest": {
+      "title": "GetAllInstanceRequest",
+      "example": {
+        "ID": ""
+      },
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ID"
+      ]
+    },
+    "CreateInstanceRequest": {
+      "title": "CreateInstanceRequest",
+      "example": {
+        "name": "absgddddddd",
+        "size": "8gb",
+        "region": "pune",
+        "ram": "2mb",
+        "os": "mac"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "ram": {
+          "type": "string"
+        },
+        "os": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "size",
+        "region",
+        "ram",
+        "os"
+      ]
+    },
+    "UpdateInstanceRequest": {
+      "title": "UpdateInstanceRequest",
+      "example": {
+        "id": "20d9da75-1432-4610-b30b-242008b7d958",
+        "name": "anshudada",
+        "size": "8gb",
+        "region": "pune",
+        "ram": "2mb",
+        "os": "mac"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "ram": {
+          "type": "string"
+        },
+        "os": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "size",
+        "region",
+        "ram",
+        "os"
+      ]
+    },
+    "DeleteInstanceRequest": {
+      "title": "DeleteInstanceRequest",
+      "example": {
+        "id": "03cc24ce-dd19-4617-ae8b-f29bb1283dd9"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "GetAllbucketRequest": {
+      "title": "GetAllbucketRequest",
+      "example": {
+        "ID": ""
+      },
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ID"
+      ]
+    },
+    "CreatebucketRequest": {
+      "title": "CreatebucketRequest",
+      "example": {
+        "name": "s",
+        "size": "8gb",
+        "region": "pune"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "size",
+        "region"
+      ]
+    },
+    "UpdatebucketRequest": {
+      "title": "UpdatebucketRequest",
+      "example": {
+        "name": "s",
+        "size": "8gb",
+        "region": "pune"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "size",
+        "region"
+      ]
+    },
+    "DeletebucketRequest": {
+      "title": "DeletebucketRequest",
+      "example": {
+        "id": "03cc24ce-dd19-4617-ae8b-f29bb1283dd9"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "GetAllnetworkRequest": {
+      "title": "GetAllnetworkRequest",
+      "example": {
+        "ID": ""
+      },
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ID"
+      ]
+    },
+    "CreatenetworkRequest": {
+      "title": "CreatenetworkRequest",
+      "example": {
+        "name": "asdf",
+        "iplist": [
+          "0.0.0.0",
+          "0.0.0.2",
+          "0.0.0.3"
+        ],
+        "instancelist": [
+          {
+            "name": "absgddddddd",
+            "region": "pune"
+          }
+        ],
+        "isactive": true
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "iplist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "instancelist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instancelist"
+          }
+        },
+        "isactive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "iplist",
+        "instancelist",
+        "isactive"
+      ]
+    },
+    "Instancelist": {
+      "title": "Instancelist",
+      "example": {
+        "name": "absgddddddd",
+        "region": "pune"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "region"
+      ]
+    },
+    "UpdatenetworkRequest": {
+      "title": "UpdatenetworkRequest",
+      "example": {
+        "id": "17761044-b166-4ced-ac07-1505dd8ec827",
+        "name": "nop",
+        "iplist": [
+          "0.0.0.0",
+          "0.0.0.2",
+          "0.0.0.3"
+        ],
+        "instancelist": [
+          {
+            "name": "absgddddddd",
+            "region": "pune"
+          }
+        ],
+        "isactive": true
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "iplist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "instancelist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instancelist"
+          }
+        },
+        "isactive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "iplist",
+        "instancelist",
+        "isactive"
+      ]
+    },
+    "DeletenetworkRequest": {
+      "title": "DeletenetworkRequest",
+      "example": {
+        "id": "03cc24ce-dd19-4617-ae8b-f29bb1283dd9"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Instance"
+    },
+    {
+      "name": "Bucket"
+    },
+    {
+      "name": "Network"
+    },
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
+}
