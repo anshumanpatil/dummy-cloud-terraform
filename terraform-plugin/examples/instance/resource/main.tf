@@ -19,11 +19,11 @@ provider "dummycloud" {
 }
 
 
-resource "dummycloud_instance" "created" {
-  # id = "63490a53-3457-4ee9-bb68-c720fa97cd8d"
-  name = "boomboom_poo"
-  size = "33gb"
-  region = "dhule"
-  ram = "3gb"
-  os = "win"
-}
+# resource "dummycloud_instance" "created" {
+#   id = "d581956a-823e-4464-97f6-ce6ab9a364e3"
+#   name = "boomboom_fast"
+#   size = "33gb"
+#   region = "dhule"
+#   ram = "3gb"
+#   os = "win"
+# }

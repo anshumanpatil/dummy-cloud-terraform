@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col';
 export const HomePage = () => {
     const { user } = LocalStorage.get("user");
         if (!user) {
-            return <Navigate to="/" />;
+            window.location.href = "/"
         }
     
     return (
