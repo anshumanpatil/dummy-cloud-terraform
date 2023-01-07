@@ -59,6 +59,12 @@ func main() {
 
 	})
 
+	server.POST("/signin", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"token": "signin",
+		})
+	})
+
 	server.POST("/instance/read", instanceController.Read)
 	server.POST("/instance", instanceController.Create)
 	server.PUT("/instance", instanceController.Update)

@@ -10,7 +10,8 @@ type Instance struct {
 }
 
 type InstanceCreate struct {
-	Name   string `json:"name" validate:"required"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
 	Size   string `json:"size"`
 	Region string `json:"region"`
 	Ram    string `json:"ram"`

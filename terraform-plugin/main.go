@@ -1,16 +1,21 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"context"
+	dummycloud "dummy-cloud/dummycloud"
 
-	"terraform-provider-pfxm/pfxm"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 )
 
+// Provider documentation generation.
+
 func main() {
-	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: func() *schema.Provider {
-			return pfxm.Provider()
-		},
+	providerserver.Serve(context.Background(), dummycloud.New, providerserver.ServeOpts{
+		// NOTE: This is not a typical Terraform Registry provider address,
+		// such as registry.terraform.io/anshumanpatil.com/dummy-cloud. This specific
+		// provider address is used in these tutorials in conjunction with a
+		// specific Terraform CLI configuration for manual development testing
+		// of this provider.
+		Address: "anshumanpatil.com/dev/dummycloud",
 	})
 }

@@ -25,7 +25,17 @@ func Create(i instanceModel.InstanceCreate) instanceModel.InstanceCreate {
 	empty.Size = i.Size
 
 	tbl.Instances = append(tbl.Instances, empty)
-	return i
+
+	returnVal := instanceModel.InstanceCreate{}
+	returnVal.ID = empty.ID
+
+	returnVal.Name = empty.Name
+	returnVal.OS = empty.OS
+	returnVal.Ram = empty.Ram
+	returnVal.Region = empty.Region
+	returnVal.Size = empty.Size
+
+	return returnVal
 }
 
 func Delete(id string) bool {

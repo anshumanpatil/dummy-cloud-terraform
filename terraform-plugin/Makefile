@@ -1,9 +1,9 @@
 TEST?=$$(go list ./... | grep -v 'vendor')
-HOSTNAME=dell.com
+HOSTNAME=anshumanpatil.com
 NAMESPACE=dev
-NAME=pfxm
+NAME=dummycloud
 BINARY=terraform-provider-${NAME}
-VERSION=0.2
+VERSION=0.1
 OS_ARCH=darwin_amd64
 
 default: install
@@ -26,19 +26,14 @@ release:
 	GOOS=windows GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_windows_amd64
 
 install: build
+	sh clean.sh
 	rm -rfv ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
-	rm -rfv example/.terraform
-	rm -rfv example/.terraform.lock.hcl
-	rm -rfv example/terraform.tfstate
-	
 	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
 uninstall:
+	sh clean.sh
 	rm -rfv ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
-	rm -rfv example/.terraform
-	rm -rfv example/.terraform.lock.hcl
-	rm -rfv example/terraform.tfstate
 
 test: 
 	go test -i $(TEST) || exit 1                                                   
