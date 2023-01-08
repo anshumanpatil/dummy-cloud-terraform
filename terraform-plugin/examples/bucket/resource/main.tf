@@ -1,5 +1,6 @@
-# cd ../../.. && make install && cd examples/instance/datasource
+# cd ../../.. && make install && cd examples/bucket/resource
 # terraform init && terraform apply --auto-approve
+
 
 terraform {
   required_providers {
@@ -18,9 +19,9 @@ provider "dummycloud" {
 }
 
 
-data "dummycloud_instance" "all" {}
-
-# Returns all instances
-output "all_instance_available" {
-  value = data.dummycloud_instance.all.instances
-}
+# resource "dummycloud_bucket" "created" {
+#   id = "b22f4546-4762-4cc8-891a-9da9a3ee049b"
+#   name = "boomboom_slow"
+#   size = "33gb"
+#   region = "dhule"
+# }

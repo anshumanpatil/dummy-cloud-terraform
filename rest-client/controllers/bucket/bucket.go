@@ -20,6 +20,7 @@ func Delete(ctx *gin.Context) {
 			"deleted": deleted,
 			"data":    deleteBody,
 		})
+		return
 	}
 
 	ctx.JSON(http.StatusConflict, gin.H{
@@ -38,7 +39,7 @@ func Update(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusAccepted, buckettable.Update(updateBody))
+	ctx.JSON(http.StatusOK, buckettable.Update(updateBody))
 }
 
 func Create(ctx *gin.Context) {
@@ -50,7 +51,7 @@ func Create(ctx *gin.Context) {
 	}
 
 	created := buckettable.Create(createBody)
-	ctx.JSON(http.StatusCreated, created)
+	ctx.JSON(http.StatusOK, created)
 }
 
 func Read(ctx *gin.Context) {

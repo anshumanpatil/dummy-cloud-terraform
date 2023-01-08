@@ -41,7 +41,7 @@ func Update(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "IPList and InstanceList must be array!"})
 		return
 	}
-	ctx.JSON(http.StatusAccepted, networktable.Update(updateBody))
+	ctx.JSON(http.StatusOK, networktable.Update(updateBody))
 }
 
 func Create(ctx *gin.Context) {
@@ -58,7 +58,7 @@ func Create(ctx *gin.Context) {
 	}
 
 	created := networktable.Create(createBody)
-	ctx.JSON(http.StatusCreated, created)
+	ctx.JSON(http.StatusOK, created)
 }
 
 func Read(ctx *gin.Context) {

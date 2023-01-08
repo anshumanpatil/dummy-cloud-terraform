@@ -1,4 +1,4 @@
-# cd ../../.. && make install && cd examples/instance/datasource
+# cd ../../.. && make install && cd examples/bucket/datasource
 # terraform init && terraform apply --auto-approve
 
 terraform {
@@ -18,9 +18,9 @@ provider "dummycloud" {
 }
 
 
-data "dummycloud_instance" "all" {}
+data "dummycloud_bucket" "all" {}
 
-# Returns all instances
-output "all_instance_available" {
-  value = data.dummycloud_instance.all.instances
+# Returns all buckets
+output "all_bucket_available" {
+  value = data.dummycloud_bucket.all.buckets
 }

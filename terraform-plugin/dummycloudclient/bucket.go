@@ -7,16 +7,16 @@ import (
 	"strings"
 )
 
-// GetInstances - Returns list of Instances.
-func (c *Client) GetInstances(id string) ([]Instance, error) {
-	i := InstanceRead{
+// GetBuckets - Returns list of Buckets.
+func (c *Client) GetBuckets(id string) ([]Bucket, error) {
+	i := BucketRead{
 		ID: id,
 	}
 	readBody, err := json.Marshal(i)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/instance/read", c.HostURL), strings.NewReader(string(readBody)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/bucket/read", c.HostURL), strings.NewReader(string(readBody)))
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (c *Client) GetInstances(id string) ([]Instance, error) {
 		return nil, err
 	}
 
-	coffees := []Instance{}
+	coffees := []Bucket{}
 	err = json.Unmarshal(body, &coffees)
 	if err != nil {
 		return nil, err
@@ -35,13 +35,13 @@ func (c *Client) GetInstances(id string) ([]Instance, error) {
 	return coffees, nil
 }
 
-// CreateInstance - Returns list of Instances.
-func (c *Client) CreateInstance(i Instance) (*Instance, error) {
+// CreateBucket - Returns list of Buckets.
+func (c *Client) CreateBucket(i Bucket) (*Bucket, error) {
 	createBody, err := json.Marshal(i)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/instance", c.HostURL), strings.NewReader(string(createBody)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/bucket", c.HostURL), strings.NewReader(string(createBody)))
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *Client) CreateInstance(i Instance) (*Instance, error) {
 		return nil, err
 	}
 
-	coffees := Instance{}
+	coffees := Bucket{}
 	err = json.Unmarshal(body, &coffees)
 	if err != nil {
 		return nil, err
@@ -60,13 +60,13 @@ func (c *Client) CreateInstance(i Instance) (*Instance, error) {
 	return &coffees, nil
 }
 
-// UpdateInstance - Returns list of Instances.
-func (c *Client) UpdateInstance(i Instance) (*Instance, error) {
+// UpdateBucket - Returns list of Buckets.
+func (c *Client) UpdateBucket(i Bucket) (*Bucket, error) {
 	updateBody, err := json.Marshal(i)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/instance", c.HostURL), strings.NewReader(string(updateBody)))
+	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/bucket", c.HostURL), strings.NewReader(string(updateBody)))
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (c *Client) UpdateInstance(i Instance) (*Instance, error) {
 		return nil, err
 	}
 
-	coffees := Instance{}
+	coffees := Bucket{}
 	err = json.Unmarshal(body, &coffees)
 	if err != nil {
 		return nil, err
@@ -85,16 +85,16 @@ func (c *Client) UpdateInstance(i Instance) (*Instance, error) {
 	return &coffees, nil
 }
 
-// DeleteInstance - Returns list of Instances.
-func (c *Client) DeleteInstance(id string) (*DeleteInstance, error) {
-	i := InstanceDelete{
+// DeleteBucket - Returns list of Buckets.
+func (c *Client) DeleteBucket(id string) (*DeleteBucket, error) {
+	i := BucketDelete{
 		ID: id,
 	}
 	readBody, err := json.Marshal(i)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/instance", c.HostURL), strings.NewReader(string(readBody)))
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/bucket", c.HostURL), strings.NewReader(string(readBody)))
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (c *Client) DeleteInstance(id string) (*DeleteInstance, error) {
 		return nil, err
 	}
 
-	coffees := DeleteInstance{}
+	coffees := DeleteBucket{}
 	err = json.Unmarshal(body, &coffees)
 	if err != nil {
 		return nil, err

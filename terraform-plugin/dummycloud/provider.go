@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 
+	"dummy-cloud/bucket"
 	"dummy-cloud/dummycloudclient"
 	"dummy-cloud/instance"
 
@@ -196,6 +197,7 @@ func (p *dummycloudProvider) Configure(ctx context.Context, req provider.Configu
 func (p *dummycloudProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		instance.NewInstanceDataSource,
+		bucket.NewBucketDataSource,
 	}
 }
 
@@ -203,5 +205,6 @@ func (p *dummycloudProvider) DataSources(_ context.Context) []func() datasource.
 func (p *dummycloudProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		instance.NewInstanceResource,
+		bucket.NewBucketResource,
 	}
 }

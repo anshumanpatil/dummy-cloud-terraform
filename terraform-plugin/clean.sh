@@ -1,17 +1,29 @@
-rm -rfv examples/provider/.terraform
-rm -rfv examples/provider/.terraform.lock.hcl
-rm -rfv examples/provider/terraform.tfstate
-rm -rfv examples/instance/datasource/*.txt
-rm -rfv examples/instance/datasource/*.backup
+rm -rf examples/provider/.terraform
+rm -rf examples/provider/.terraform.lock.hcl
+rm -rf examples/provider/terraform.tfstate
+rm -rf examples/instance/datasource/*.txt
+rm -rf examples/instance/datasource/*.backup
 
-rm -rfv examples/instance/datasource/.terraform
-rm -rfv examples/instance/datasource/.terraform.lock.hcl
-rm -rfv examples/instance/datasource/terraform.tfstate
-rm -rfv examples/instance/datasource/*.txt
-rm -rfv examples/instance/datasource/*.backup
+rm -rf examples/instance/datasource/.terraform
+rm -rf examples/instance/datasource/.terraform.lock.hcl
+rm -rf examples/instance/datasource/terraform.tfstate
+rm -rf examples/instance/datasource/*.txt
+rm -rf examples/instance/datasource/*.backup
 
-rm -rfv examples/instance/resource/.terraform
-rm -rfv examples/instance/resource/.terraform.lock.hcl
-rm -rfv examples/instance/resource/terraform.tfstate
-rm -rfv examples/instance/resource/*.txt
-rm -rfv examples/instance/resource/*.backup
+rm -rf examples/instance/resource/.terraform
+rm -rf examples/instance/resource/.terraform.lock.hcl
+rm -rf examples/instance/resource/terraform.tfstate
+rm -rf examples/instance/resource/*.txt
+rm -rf examples/instance/resource/*.backup
+
+rm -rf examples/bucket/datasource/.terraform
+rm -rf examples/bucket/datasource/.terraform.lock.hcl
+rm -rf examples/bucket/datasource/terraform.tfstate
+rm -rf examples/bucket/datasource/*.txt
+rm -rf examples/bucket/datasource/*.backup
+
+rm -rf examples/bucket/resource/.terraform
+rm -rf examples/bucket/resource/.terraform.lock.hcl
+rm -rf examples/bucket/resource/terraform.tfstate
+rm -rf examples/bucket/resource/*.txt
+rm -rf examples/bucket/resource/*.backup

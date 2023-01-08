@@ -1,4 +1,4 @@
-package instance
+package bucket
 
 import (
 	"context"
@@ -16,41 +16,39 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ resource.Resource                = &instanceResource{}
-	_ resource.ResourceWithConfigure   = &instanceResource{}
-	_ resource.ResourceWithImportState = &instanceResource{}
+	_ resource.Resource                = &bucketResource{}
+	_ resource.ResourceWithConfigure   = &bucketResource{}
+	_ resource.ResourceWithImportState = &bucketResource{}
 )
 
-// NewInstanceResource is a helper function to simplify the provider implementation.
-func NewInstanceResource() resource.Resource {
-	return &instanceResource{}
+// NewBucketResource is a helper function to simplify the provider implementation.
+func NewBucketResource() resource.Resource {
+	return &bucketResource{}
 }
 
-// instanceResource is the resource implementation.
-type instanceResource struct {
+// bucketResource is the resource implementation.
+type bucketResource struct {
 	client *dummycloudclient.Client
 }
 
-// instanceSchemaModel maps coffee order item data.
-type instanceSchemaModel struct {
+// bucketSchemaModel maps coffee order item data.
+type bucketSchemaModel struct {
 	ID          types.String `tfsdk:"id"`
 	Name        types.String `tfsdk:"name"`
 	Size        types.String `tfsdk:"size"`
 	Region      types.String `tfsdk:"region"`
-	Ram         types.String `tfsdk:"ram"`
-	OS          types.String `tfsdk:"os"`
 	LastUpdated types.String `tfsdk:"last_updated"`
 }
 
 // Metadata returns the data source type name.
-func (r *instanceResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_instance"
+func (r *bucketResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_bucket"
 }
 
 // Schema defines the schema for the data source.
-func (r *instanceResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *bucketResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manages an instance.",
+		Description: "Manages an bucket.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "Numeric identifier of the order.",
@@ -72,14 +70,6 @@ func (r *instanceResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 				Description: "Numeric identifier of the order.",
 				Required:    true,
 			},
-			"ram": schema.StringAttribute{
-				Description: "Numeric identifier of the order.",
-				Required:    true,
-			},
-			"os": schema.StringAttribute{
-				Description: "Numeric identifier of the order.",
-				Required:    true,
-			},
 			"last_updated": schema.StringAttribute{
 				Description: "Timestamp of the last Terraform update of the order.",
 				Computed:    true,
@@ -89,7 +79,7 @@ func (r *instanceResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 }
 
 // Configure adds the provider configured client to the data source.
-func (r *instanceResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
+func (r *bucketResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -98,25 +88,23 @@ func (r *instanceResource) Configure(_ context.Context, req resource.ConfigureRe
 }
 
 // Create creates the resource and sets the initial Terraform state.
-func (r *instanceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *bucketResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	// Retrieve values from plan
-	var plan instanceSchemaModel
+	var plan bucketSchemaModel
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	instanceToCreate := dummycloudclient.Instance{
+	bucketToCreate := dummycloudclient.Bucket{
 		Name:   plan.Name.ValueString(),
 		Size:   plan.Size.ValueString(),
 		Region: plan.Region.ValueString(),
-		Ram:    plan.Ram.ValueString(),
-		OS:     plan.OS.ValueString(),
 	}
 
 	// Create new order
-	order, err := r.client.CreateInstance(instanceToCreate)
+	order, err := r.client.CreateBucket(bucketToCreate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating order",
@@ -130,8 +118,6 @@ func (r *instanceResource) Create(ctx context.Context, req resource.CreateReques
 	plan.Name = types.StringValue(order.Name)
 	plan.Size = types.StringValue(order.Size)
 	plan.Region = types.StringValue(order.Region)
-	plan.Ram = types.StringValue(order.Ram)
-	plan.OS = types.StringValue(order.OS)
 
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 
@@ -144,9 +130,9 @@ func (r *instanceResource) Create(ctx context.Context, req resource.CreateReques
 }
 
 // Read refreshes the Terraform state with the latest data.
-func (r *instanceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (r *bucketResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	// Get current state
-	var state instanceSchemaModel
+	var state bucketSchemaModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -154,7 +140,7 @@ func (r *instanceResource) Read(ctx context.Context, req resource.ReadRequest, r
 	}
 
 	// Get refreshed order value from DummyCloud
-	order, err := r.client.GetInstances(state.ID.ValueString())
+	order, err := r.client.GetBuckets(state.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Reading DummyCloud Order",
@@ -171,14 +157,12 @@ func (r *instanceResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	singleInstance := order[0]
+	singleBucket := order[0]
 
-	state.ID = types.StringValue(singleInstance.ID)
-	state.Name = types.StringValue(singleInstance.Name)
-	state.Size = types.StringValue(singleInstance.Size)
-	state.Region = types.StringValue(singleInstance.Region)
-	state.Ram = types.StringValue(singleInstance.Ram)
-	state.OS = types.StringValue(singleInstance.OS)
+	state.ID = types.StringValue(singleBucket.ID)
+	state.Name = types.StringValue(singleBucket.Name)
+	state.Size = types.StringValue(singleBucket.Size)
+	state.Region = types.StringValue(singleBucket.Region)
 
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
@@ -189,26 +173,24 @@ func (r *instanceResource) Read(ctx context.Context, req resource.ReadRequest, r
 }
 
 // Update updates the resource and sets the updated Terraform state on success.
-func (r *instanceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *bucketResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	// Retrieve values from plan
-	var plan instanceSchemaModel
+	var plan bucketSchemaModel
 	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	input := dummycloudclient.Instance{
+	input := dummycloudclient.Bucket{
 		ID:     plan.ID.ValueString(),
 		Name:   plan.Name.ValueString(),
 		Size:   plan.Size.ValueString(),
 		Region: plan.Region.ValueString(),
-		Ram:    plan.Ram.ValueString(),
-		OS:     plan.OS.ValueString(),
 	}
 
 	// Update existing order
-	order, err := r.client.UpdateInstance(input)
+	order, err := r.client.UpdateBucket(input)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Updating DummyCloud Order",
@@ -221,8 +203,6 @@ func (r *instanceResource) Update(ctx context.Context, req resource.UpdateReques
 	plan.Name = types.StringValue(order.Name)
 	plan.Size = types.StringValue(order.Size)
 	plan.Region = types.StringValue(order.Region)
-	plan.Ram = types.StringValue(order.Ram)
-	plan.OS = types.StringValue(order.OS)
 
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 
@@ -234,9 +214,9 @@ func (r *instanceResource) Update(ctx context.Context, req resource.UpdateReques
 }
 
 // Delete deletes the resource and removes the Terraform state on success.
-func (r *instanceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *bucketResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	// Retrieve values from state
-	var state instanceSchemaModel
+	var state bucketSchemaModel
 	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -244,7 +224,7 @@ func (r *instanceResource) Delete(ctx context.Context, req resource.DeleteReques
 	}
 
 	// Delete existing order
-	_, err := r.client.DeleteInstance(state.ID.ValueString())
+	_, err := r.client.DeleteBucket(state.ID.ValueString())
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -255,7 +235,7 @@ func (r *instanceResource) Delete(ctx context.Context, req resource.DeleteReques
 	}
 }
 
-func (r *instanceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *bucketResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Retrieve import ID and save to id attribute
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

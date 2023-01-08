@@ -26,9 +26,8 @@ type AuthStruct struct {
 
 // AuthResponse -
 type AuthResponse struct {
-	UserID   int    `json:"user_id`
-	Username string `json:"username`
-	Token    string `json:"token"`
+	Success bool   `json:"success`
+	Token   string `json:"token"`
 }
 
 // NewClient -
@@ -58,7 +57,9 @@ func NewClient(host, username, password *string) (*Client, error) {
 		return nil, err
 	}
 
-	c.Token = ar.Token
+	if ar.Success {
+		c.Token = ar.Token
+	}
 
 	return &c, nil
 }
