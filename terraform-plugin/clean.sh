@@ -27,3 +27,15 @@ rm -rf examples/bucket/resource/.terraform.lock.hcl
 rm -rf examples/bucket/resource/terraform.tfstate
 rm -rf examples/bucket/resource/*.txt
 rm -rf examples/bucket/resource/*.backup
+
+rm -rf examples/network/datasource/.terraform
+rm -rf examples/network/datasource/.terraform.lock.hcl
+rm -rf examples/network/datasource/terraform.tfstate
+rm -rf examples/network/datasource/*.txt
+rm -rf examples/network/datasource/*.backup
+
+rm -rf examples/network/resource/.terraform
+rm -rf examples/network/resource/.terraform.lock.hcl
+rm -rf examples/network/resource/terraform.tfstate
+rm -rf examples/network/resource/*.txt
+rm -rf examples/network/resource/*.backup

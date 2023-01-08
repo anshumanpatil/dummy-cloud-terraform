@@ -41,3 +41,31 @@ type DeleteBucket struct {
 	Deleted bool   `json:"deleted"`
 	Data    Bucket `json:"data"`
 }
+
+//----------------------------------------------------------------------------------------
+
+type NetworkRegion struct {
+	Name   string `json:"name"`
+	Region string `json:"region"`
+}
+
+type Network struct {
+	ID           string          `json:"id"`
+	Name         string          `json:"name"`
+	IPList       []string        `json:"iplist"`
+	InstanceList []NetworkRegion `json:"instancelist"`
+	IsActive     bool            `json:"isactive"`
+}
+
+type NetworkRead struct {
+	ID string `json:"id"`
+}
+
+type NetworkDelete struct {
+	ID string `json:"id"`
+}
+
+type DeleteNetwork struct {
+	Deleted bool    `json:"deleted"`
+	Data    Network `json:"data"`
+}

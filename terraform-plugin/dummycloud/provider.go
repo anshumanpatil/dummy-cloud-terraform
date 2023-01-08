@@ -7,6 +7,7 @@ import (
 	"dummy-cloud/bucket"
 	"dummy-cloud/dummycloudclient"
 	"dummy-cloud/instance"
+	"dummy-cloud/network"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -198,6 +199,7 @@ func (p *dummycloudProvider) DataSources(_ context.Context) []func() datasource.
 	return []func() datasource.DataSource{
 		instance.NewInstanceDataSource,
 		bucket.NewBucketDataSource,
+		network.NewNetworkDataSource,
 	}
 }
 

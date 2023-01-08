@@ -1,6 +1,8 @@
 package dummycloudclient
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -16,6 +18,23 @@ type Client struct {
 	HTTPClient *http.Client
 	Token      string
 	Auth       AuthStruct
+}
+
+const (
+	empty = ""
+	tab   = "\t"
+)
+
+func (c *Client) PrettyJson(data interface{}) string {
+	buffer := new(bytes.Buffer)
+	encoder := json.NewEncoder(buffer)
+	encoder.SetIndent(empty, tab)
+
+	err := encoder.Encode(data)
+	if err != nil {
+		return empty
+	}
+	return buffer.String()
 }
 
 // AuthStruct -
