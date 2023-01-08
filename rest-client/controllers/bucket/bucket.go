@@ -54,6 +54,7 @@ func Create(ctx *gin.Context) {
 }
 
 func Read(ctx *gin.Context) {
+
 	readBody := bucketModel.BucketRead{}
 	if err := ctx.ShouldBindJSON(&readBody); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

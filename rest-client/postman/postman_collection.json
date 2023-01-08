@@ -13,7 +13,13 @@
 					"name": "Get All Instance",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"ID\" : \"\"\n}",
@@ -42,7 +48,13 @@
 					"name": "Create Instance",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"absgddddddd\",\n    \"size\": \"8gb\",\n    \"region\": \"pune\",\n    \"ram\": \"2mb\",\n    \"os\": \"mac\"\n}",
@@ -70,7 +82,13 @@
 					"name": "Update Instance",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": \"20d9da75-1432-4610-b30b-242008b7d958\",\n    \"name\": \"anshudada\",\n    \"size\": \"8gb\",\n    \"region\": \"pune\",\n    \"ram\": \"2mb\",\n    \"os\": \"mac\"\n}",
@@ -98,7 +116,13 @@
 					"name": "Delete Instance",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": \"03cc24ce-dd19-4617-ae8b-f29bb1283dd9\"\n}",
@@ -131,7 +155,13 @@
 					"name": "Get All bucket",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMyNDg3NDZ9.lR0NrqQQ7-y2jti8GmmuPdSZHtpBU2YNV_PVGjOxu_c",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"ID\" : \"\"\n}",
@@ -160,7 +190,13 @@
 					"name": "Create bucket",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"s\",\n    \"size\": \"8gb\",\n    \"region\": \"pune\"\n}",
@@ -188,7 +224,13 @@
 					"name": "Update bucket",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"s\",\n    \"size\": \"8gb\",\n    \"region\": \"pune\"\n}",
@@ -216,7 +258,13 @@
 					"name": "Delete bucket",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": \"03cc24ce-dd19-4617-ae8b-f29bb1283dd9\"\n}",
@@ -249,7 +297,13 @@
 					"name": "Get All network",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"ID\" : \"\"\n}",
@@ -278,7 +332,13 @@
 					"name": "Create network",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"name\": \"asdf\",\n    \"iplist\": [\n        \"0.0.0.0\",\n        \"0.0.0.2\",\n        \"0.0.0.3\"\n    ],\n    \"instancelist\": [\n        {\n            \"name\": \"absgddddddd\",\n            \"region\": \"pune\"\n        }\n    ],\n    \"isactive\": true\n}",
@@ -306,7 +366,13 @@
 					"name": "Update network",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\":\"17761044-b166-4ced-ac07-1505dd8ec827\",\n    \"name\": \"nop\",\n    \"iplist\": [\n        \"0.0.0.0\",\n        \"0.0.0.2\",\n        \"0.0.0.3\"\n    ],\n    \"instancelist\": [\n        {\n            \"name\": \"absgddddddd\",\n            \"region\": \"pune\"\n        }\n    ],\n    \"isactive\": true\n}",
@@ -334,7 +400,13 @@
 					"name": "Delete network",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"id\": \"03cc24ce-dd19-4617-ae8b-f29bb1283dd9\"\n}",
@@ -386,6 +458,34 @@
 					"port": "8090",
 					"path": [
 						"postman"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign In",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"signin"
 					]
 				}
 			},

@@ -1,0 +1,48 @@
+[
+    {
+        "name": "network_1",
+        "iplist": [
+            "0.0.0.0",
+            "0.0.0.2",
+            "0.0.0.3"
+        ],
+        "instancelist": [
+            {
+                "name": "absgddddddd",
+                "region": "pune"
+            }
+        ],
+        "isactive": true
+    },
+    {
+        "name": "network_2",
+        "iplist": [
+            "0.0.0.0",
+            "0.0.0.2",
+            "0.0.0.3"
+        ],
+        "instancelist": [
+            {
+                "name": "absgddddddd",
+                "region": "pune"
+            }
+        ],
+        "isactive": true
+    },
+    {
+        "name": "network_3",
+        "iplist": [
+            "0.0.0.0",
+            "0.0.0.2",
+            "0.0.0.3"
+        ],
+        "instancelist": [
+            {
+                "name": "absgddddddd",
+                "region": "pune"
+            }
+        ],
+        "isactive": true
+    }
+
+]

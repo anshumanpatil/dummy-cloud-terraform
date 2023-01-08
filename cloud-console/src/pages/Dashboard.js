@@ -6,10 +6,12 @@ import HTTPCalls from "../http/calls";
 export const Dashhboard = () => {
     const [instanceList, setInstanceList] = useState([]);
     const [bucketList, setBucketList] = useState([]);
+    const [networkList, setNetworkList] = useState([]);
 
     useEffect(() => {
         HTTPCalls.requestAllInstances("").then(newinstanceList => setInstanceList(newinstanceList))
         HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList))
+        HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
     }, []);
 
     const accChanged = async (e) => {
@@ -20,6 +22,9 @@ export const Dashhboard = () => {
                 break;
             case 1:
                 HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList))
+                break;
+            case 2:
+                HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
                 break;
         
             default:
@@ -35,6 +40,9 @@ export const Dashhboard = () => {
             </Accordion.Item>
             <Accordion.Item eventKey="1">
                 <Resource title="Bucket" resourceList={bucketList}/>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+                <Resource title="Network" resourceList={networkList}/>
             </Accordion.Item>
         </Accordion>
     );
