@@ -20,8 +20,14 @@ provider "dummycloud" {
 
 
 # resource "dummycloud_network" "created" {
-#   id = "b22f4546-4762-4cc8-891a-9da9a3ee049b"
-#   name = "boomboom_slow"
-#   size = "33gb"
-#   region = "dhule"
+#   id = "324cfef8-1450-4921-a7a6-90e30f34919b"
+#   name = "boomboom_fast"
+#   isactive = true
+#   iplist = ["33gb"]
+#   instancelist = [
+#     {
+#       name = "x"
+#       region = "y"
+#     }
+#   ]
 # }

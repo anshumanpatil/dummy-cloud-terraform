@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -33,11 +34,17 @@ type networkResource struct {
 
 // networkSchemaModel maps coffee order item data.
 type networkSchemaModel struct {
-	ID           types.String `tfsdk:"id"`
-	Name         types.String `tfsdk:"name"`
-	IPList       types.List   `tfsdk:"iplist"`
-	InstanceList types.List   `tfsdk:"instancelist"`
-	IsActive     types.Bool   `tfsdk:"isactive"`
+	ID           types.String      `tfsdk:"id"`
+	Name         types.String      `tfsdk:"name"`
+	IPList       []types.String    `tfsdk:"iplist"`
+	InstanceList []NetworkInstance `tfsdk:"instancelist"`
+	IsActive     types.Bool        `tfsdk:"isactive"`
+	LastUpdated  types.String      `tfsdk:"last_updated"`
+}
+
+type NetworkInstance struct {
+	Name   types.String `tfsdk:"name"`
+	Region types.String `tfsdk:"region"`
 }
 
 // Metadata returns the data source type name.
@@ -65,23 +72,28 @@ func (r *networkResource) Schema(_ context.Context, _ resource.SchemaRequest, re
 			"iplist": schema.ListAttribute{
 				ElementType: types.StringType,
 				Description: "Size of the network.",
+				Optional:    true,
 				Computed:    true,
 			},
 			"instancelist": schema.ListNestedAttribute{
 				Computed: true,
+				Optional: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Computed: true,
+							Optional: true,
 						},
 						"region": schema.StringAttribute{
 							Computed: true,
+							Optional: true,
 						},
 					},
 				},
 			},
 			"isactive": schema.BoolAttribute{
 				Description: "Region of the network.",
+				Optional:    true,
 				Computed:    true,
 			},
 			"last_updated": schema.StringAttribute{
@@ -106,15 +118,34 @@ func (r *networkResource) Create(ctx context.Context, req resource.CreateRequest
 	// Retrieve values from plan
 	var plan networkSchemaModel
 	diags := req.Plan.Get(ctx, &plan)
+
+	tflog.Info(ctx, "[Anshuman] plan "+r.client.PrettyJson(plan.IPList))
 	resp.Diagnostics.Append(diags...)
+
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
+	tflog.Info(ctx, "[Anshuman] "+r.client.PrettyJson(plan.IPList))
+
+	newIPList := []string{}
+	for _, v := range plan.IPList {
+		newIPList = append(newIPList, v.ValueString())
+	}
+
+	newInstanceList := []dummycloudclient.NetworkRegion{}
+	for _, v := range plan.InstanceList {
+		newInstanceList = append(newInstanceList, dummycloudclient.NetworkRegion{
+			Name:   v.Name.ValueString(),
+			Region: v.Region.ValueString(),
+		})
+	}
+
 	networkToCreate := dummycloudclient.Network{
-		Name:   plan.Name.ValueString(),
-		Size:   plan.Size.ValueString(),
-		Region: plan.Region.ValueString(),
+		Name:         plan.Name.ValueString(),
+		IsActive:     plan.IsActive.ValueBool(),
+		IPList:       newIPList,
+		InstanceList: newInstanceList,
 	}
 
 	// Create new order
@@ -130,8 +161,6 @@ func (r *networkResource) Create(ctx context.Context, req resource.CreateRequest
 	// Map response body to schema and populate Computed attribute values
 	plan.ID = types.StringValue(order.ID)
 	plan.Name = types.StringValue(order.Name)
-	plan.Size = types.StringValue(order.Size)
-	plan.Region = types.StringValue(order.Region)
 
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 
@@ -175,8 +204,6 @@ func (r *networkResource) Read(ctx context.Context, req resource.ReadRequest, re
 
 	state.ID = types.StringValue(singleNetwork.ID)
 	state.Name = types.StringValue(singleNetwork.Name)
-	state.Size = types.StringValue(singleNetwork.Size)
-	state.Region = types.StringValue(singleNetwork.Region)
 
 	// Set refreshed state
 	diags = resp.State.Set(ctx, &state)
@@ -196,15 +223,29 @@ func (r *networkResource) Update(ctx context.Context, req resource.UpdateRequest
 		return
 	}
 
-	input := dummycloudclient.Network{
-		ID:     plan.ID.ValueString(),
-		Name:   plan.Name.ValueString(),
-		Size:   plan.Size.ValueString(),
-		Region: plan.Region.ValueString(),
+	newIPList := []string{}
+	for _, v := range plan.IPList {
+		newIPList = append(newIPList, v.ValueString())
+	}
+
+	newInstanceList := []dummycloudclient.NetworkRegion{}
+	for _, v := range plan.InstanceList {
+		newInstanceList = append(newInstanceList, dummycloudclient.NetworkRegion{
+			Name:   v.Name.ValueString(),
+			Region: v.Region.ValueString(),
+		})
+	}
+
+	networkToUpdate := dummycloudclient.Network{
+		ID:           plan.ID.ValueString(),
+		Name:         plan.Name.ValueString(),
+		IsActive:     plan.IsActive.ValueBool(),
+		IPList:       newIPList,
+		InstanceList: newInstanceList,
 	}
 
 	// Update existing order
-	order, err := r.client.UpdateNetwork(input)
+	order, err := r.client.UpdateNetwork(networkToUpdate)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Updating DummyCloud Order",
@@ -215,8 +256,6 @@ func (r *networkResource) Update(ctx context.Context, req resource.UpdateRequest
 
 	plan.ID = types.StringValue(order.ID)
 	plan.Name = types.StringValue(order.Name)
-	plan.Size = types.StringValue(order.Size)
-	plan.Region = types.StringValue(order.Region)
 
 	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
 

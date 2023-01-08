@@ -208,5 +208,6 @@ func (p *dummycloudProvider) Resources(_ context.Context) []func() resource.Reso
 	return []func() resource.Resource{
 		instance.NewInstanceResource,
 		bucket.NewBucketResource,
+		network.NewNetworkResource,
 	}
 }

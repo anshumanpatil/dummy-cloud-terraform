@@ -25,6 +25,7 @@ func Create(i networkModel.NetworkCreate) networkModel.NetworkCreate {
 	empty.IsActive = i.IsActive
 
 	tbl.Networks = append(tbl.Networks, empty)
+	i.ID = empty.ID
 	return i
 }
 

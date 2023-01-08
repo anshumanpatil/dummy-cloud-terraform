@@ -14,6 +14,7 @@ type NetworkInstanceMember struct {
 }
 
 type NetworkCreate struct {
+	ID           string                  `json:"id"`
 	Name         string                  `json:"name"`
 	IPList       []string                `json:"iplist"`
 	InstanceList []NetworkInstanceMember `json:"instancelist"`

@@ -20,6 +20,7 @@ func Delete(ctx *gin.Context) {
 			"deleted": deleted,
 			"data":    deleteBody,
 		})
+		return
 	}
 
 	ctx.JSON(http.StatusConflict, gin.H{
