@@ -6,14 +6,21 @@ import (
 	instanceController "api/controllers/instance"
 	networkController "api/controllers/network"
 	"api/jwthelper"
+	"api/kf2wbsock"
 	"api/seed"
+	"context"
 	"encoding/json"
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"os/signal"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
+	"github.com/segmentio/kafka-go"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -21,6 +28,7 @@ import (
 func main() {
 	seed.Seed()
 
+	go startWebKafka()
 	server := gin.New()
 
 	server.Use(gin.Recovery())
@@ -80,10 +88,6 @@ func main() {
 
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://localhost:8090/swagger")))
 
-	// server.GET("/ws", func(c *gin.Context) {
-	// 	wshandler(c.Writer, c.Request)
-	// })
-
 	server.Run(":8090")
 }
 
@@ -98,7 +102,57 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.AbortWithStatus(200)
 			return
 		}
+		ctx := context.Background()
+
+		reqUrlPath := c.Request.URL.String()
+
+		if !(strings.Contains(reqUrlPath, "read")) {
+			produce(ctx, "change", c.Request.URL.String())
+			fmt.Println("change", c.Request.URL.String())
+		}
 
 		c.Next()
+	}
+}
+
+func startWebKafka() {
+	configFile := flag.String("config", "config.yaml", "Config file location")
+	// kf2wbsock
+	list := kf2wbsock.ReadK2WS(*configFile)
+
+	for i := range list {
+		go func(k2ws *kf2wbsock.K2WS) {
+			err := k2ws.Start()
+			if err != nil {
+				// log.Fatalln(err)
+			}
+		}(list[i])
+	}
+
+	var chExit = make(chan os.Signal, 1)
+	signal.Notify(chExit, os.Interrupt)
+	<-chExit
+}
+
+const (
+	topic          = "anshu"
+	broker1Address = "localhost:9092"
+	// broker2Address = "localhost:9094"
+	// broker3Address = "localhost:9095"
+)
+
+func produce(ctx context.Context, title string, msg string) {
+	w := kafka.NewWriter(kafka.WriterConfig{
+		Brokers: []string{broker1Address},
+		Topic:   topic,
+	})
+
+	err := w.WriteMessages(ctx, kafka.Message{
+		Key: []byte(title),
+		// create an arbitrary message payload for the value
+		Value: []byte(msg),
+	})
+	if err != nil {
+		panic("could not write message " + err.Error())
 	}
 }

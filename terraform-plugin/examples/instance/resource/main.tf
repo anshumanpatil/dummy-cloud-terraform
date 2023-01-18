@@ -13,15 +13,15 @@ terraform {
 
 # Configuration-based authentication
 provider "dummycloud" {
-  username = "education"
-  password = "test123"
+  username = "admin"
+  password = "admin"
   host     = "http://localhost:8090"
 }
 
 
 # resource "dummycloud_instance" "created" {
-#   id = "d581956a-823e-4464-97f6-ce6ab9a364e3"
-#   name = "boomboom_fast"
+#   id = "2bba74f6-de4a-4d22-860e-ab3619546785"
+#   name = "boomboom_slow"
 #   size = "33gb"
 #   region = "dhule"
 #   ram = "3gb"

@@ -1,0 +1,30 @@
+schema.version: "1.0"
+# tls.cert.file: ./certs/mydomain.crt
+# tls.key.file: ./certs/mydomain.key
+kafka.to.websocket:
+  # first Kafka config entry
+  - kafka.consumer.config:
+      metadata.broker.list: 127.0.0.1:9092 # required
+      group.id: my-group
+    kafka.default.topic.config:
+      auto.offset.reset: earliest # default is "largest"
+    kafka.topics:
+      - anshu
+    address: :8888
+    endpoint.prefix: onlyyouknow # default is ""
+
+  # second Kafka config entry
+  - kafka.consumer.config:
+      metadata.broker.list: 127.0.0.1:9092
+      group.id: my-group
+      # group.id is not defined so client should set group.id by passing `group.id` query parameter
+      enable.auto.commit: false # default is `true`
+    kafka.default.topic.config:
+          auto.offset.reset: earliest # default is "largest"
+    kafka.topics:
+      - anshu
+    address: :8888 # it would be fine to use the same port 8888 too
+    endpoint.websocket: ws # default is ""
+    endpoint.test: "" # default is "test"
+    include.headers: true # default is `false`
+    message.type: json # default is "json"

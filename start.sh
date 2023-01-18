@@ -6,4 +6,5 @@ rm -rfv cloud-console/build
 cd cloud-console
 # npm install --verbose
 npm run build
+docker-compose -f single-kafka-single.yml up -d
 docker-compose up -d

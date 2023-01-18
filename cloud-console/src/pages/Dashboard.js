@@ -3,6 +3,24 @@ import Accordion from 'react-bootstrap/Accordion';
 import Resource from "./resources/Resource";
 import HTTPCalls from "../http/calls";
 
+
+const ws = new WebSocket("ws://localhost:8888/ws");
+// Triggered when the connection is opened
+ws.onopen = function (evt) {
+    console.log("Connection open...");
+};
+//Triggered when a message is received
+
+//Triggered when the connection is closed
+ws.onclose = function (evt) {
+    console.log("Connection closed.", evt);
+};
+
+ws.onerror = function(err) {
+    console.log("Connection error.", err);
+}
+
+
 export const Dashhboard = () => {
     const [instanceList, setInstanceList] = useState([]);
     const [bucketList, setBucketList] = useState([]);
@@ -14,27 +32,23 @@ export const Dashhboard = () => {
         HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
     }, []);
 
-    const accChanged = async (e) => {
-        if(!e) return;
-        switch (parseInt(e)) {
-            case 0:
-                HTTPCalls.requestAllInstances("").then(newinstanceList => setInstanceList(newinstanceList))
-                break;
-            case 1:
-                HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList))
-                break;
-            case 2:
-                HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
-                break;
-        
-            default:
-                break;
+
+    ws.onmessage = function (evt) {
+        if (evt.data.includes("instance")) {
+            HTTPCalls.requestAllInstances("").then(newinstanceList => setInstanceList(newinstanceList))
         }
-        
-        
-    }
+        if (evt.data.includes("bucket")) {
+            HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList))
+        }
+        if (evt.data.includes("network")) {
+            HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
+        }
+
+        console.log("Received Message: " + evt.data.includes("instance"));
+    };
+
     return (
-        <Accordion onSelect={accChanged}>
+        <Accordion>
             <Accordion.Item eventKey="0">
                 <Resource title="Instance" resourceList={instanceList} />
             </Accordion.Item>
