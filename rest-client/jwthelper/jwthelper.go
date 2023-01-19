@@ -40,6 +40,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		_, err := ValidateJWT(authorizationTokenString)
 
 		if err != nil {
+			fmt.Println("err", err.Error())
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			ctx.AbortWithError(http.StatusBadRequest, err)
 			return

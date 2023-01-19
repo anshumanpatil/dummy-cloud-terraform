@@ -4,7 +4,7 @@ import Resource from "./resources/Resource";
 import HTTPCalls from "../http/calls";
 
 
-const ws = new WebSocket("ws://localhost:8888/ws");
+const ws = new WebSocket("ws://localhost:8090/ws");
 // Triggered when the connection is opened
 ws.onopen = function (evt) {
     console.log("Connection open...");
@@ -20,6 +20,10 @@ ws.onerror = function(err) {
     console.log("Connection error.", err);
 }
 
+// ws.onmessage = function (evt) {
+//     console.log("Connection onmessage.", evt.data);
+// }
+
 
 export const Dashhboard = () => {
     const [instanceList, setInstanceList] = useState([]);
@@ -27,9 +31,9 @@ export const Dashhboard = () => {
     const [networkList, setNetworkList] = useState([]);
 
     useEffect(() => {
-        HTTPCalls.requestAllInstances("").then(newinstanceList => setInstanceList(newinstanceList))
-        HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList))
-        HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList))
+        HTTPCalls.requestAllInstances("").then(newinstanceList => setInstanceList(newinstanceList)).catch(err => console.log("error ",err))
+        HTTPCalls.requestAllBuckets("").then(newbucketList => setBucketList(newbucketList)).catch(err => console.log("error ",err))
+        HTTPCalls.requestAllNetworks("").then(newnetworkList => setNetworkList(newnetworkList)).catch(err => console.log("error ",err))
     }, []);
 
 

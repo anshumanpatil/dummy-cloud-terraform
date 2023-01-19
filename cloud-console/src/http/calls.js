@@ -16,17 +16,18 @@ const requestAllInstances = (ID) => {
             headers: { 'Content-Type': 'application/json', 'Authorization': user.token },
             body: JSON.stringify({ ID }),
         }).then((response) => {
-            {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Something went wrong');
+            if (response.ok) {
+                return response.json();
             }
+            throw new Error('Something went wrong');
         })
             .then((response) => {
                 console.log("instance/read", response);
                 resolve(response)
-            }).catch(error => reject(error));
+            }).catch(error => {
+                LocalStorage.clean(); 
+                reject(error);
+            });
     })
 }
 
@@ -39,17 +40,18 @@ const requestAllBuckets = (ID) => {
             headers: { 'Content-Type': 'application/json', 'Authorization': user.token },
             body: JSON.stringify({ ID }),
         }).then((response) => {
-            {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Something went wrong');
+            if (response.ok) {
+                return response.json();
             }
+            throw new Error('Something went wrong');
         })
             .then((response) => {
                 console.log("bucket/read", response);
                 resolve(response)
-            }).catch(error => reject(error));
+            }).catch(error => {
+                LocalStorage.clean(); 
+                reject(error);
+            });
     })
 }
 const requestAllNetworks = (ID) => {
@@ -61,17 +63,18 @@ const requestAllNetworks = (ID) => {
             headers: { 'Content-Type': 'application/json', 'Authorization': user.token },
             body: JSON.stringify({ ID }),
         }).then((response) => {
-            {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Something went wrong');
+            if (response.ok) {
+                return response.json();
             }
+            throw new Error('Something went wrong');
         })
             .then((response) => {
                 console.log("bucket/read", response);
                 resolve(response)
-            }).catch(error => reject(error));
+            }).catch(error => {
+                LocalStorage.clean(); 
+                reject(error);
+            });
     })
 }
 
@@ -92,7 +95,10 @@ const requestLogin = (loginBody) => {
             .then((response) => {
                 console.log("signin", response);
                 resolve(response)
-            }).catch(error => reject(error));
+            }).catch(error => {
+                LocalStorage.clean(); 
+                reject(error);
+            });
     })
 }
 

@@ -6,29 +6,34 @@ import (
 	instanceController "api/controllers/instance"
 	networkController "api/controllers/network"
 	"api/jwthelper"
-	"api/kf2wbsock"
 	"api/seed"
-	"context"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"os/signal"
 	"strings"
 
+	"github.com/gookit/event"
+
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"github.com/rs/zerolog/log"
-	"github.com/segmentio/kafka-go"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+var upgrader = websocket.Upgrader{
+	//check origin will check the cross region source (note : please not using in production)
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
 func main() {
 	seed.Seed()
 
-	go startWebKafka()
+	// go startWebKafka()
 	server := gin.New()
 
 	server.Use(gin.Recovery())
@@ -69,6 +74,49 @@ func main() {
 
 	})
 
+	server.GET("/ws", func(c *gin.Context) {
+		//upgrade get request to websocket protocol
+		ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		defer ws.Close()
+
+		event.On("data_change", event.ListenerFunc(func(e event.Event) error {
+			data := e.Data()
+
+			if url, ok := data["path"]; ok {
+				message := []byte(url.(string))
+				err = ws.WriteMessage(1, message)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+			return nil
+		}), event.High)
+
+		for {
+
+			//Read Message from client
+			mt, message, err := ws.ReadMessage()
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+			//If client message is ping will return pong
+			if string(message) == "ping" {
+				message = []byte("pong")
+			}
+			//Response message to client
+			err = ws.WriteMessage(mt, message)
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+		}
+	})
+
 	server.POST("/signin", authController.Login)
 
 	privateEndpoints.POST("/instance/read", instanceController.Read)
@@ -102,57 +150,13 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.AbortWithStatus(200)
 			return
 		}
-		ctx := context.Background()
 
+		// ctx := context.Background()
 		reqUrlPath := c.Request.URL.String()
-
 		if !(strings.Contains(reqUrlPath, "read")) {
-			produce(ctx, "change", c.Request.URL.String())
-			fmt.Println("change", c.Request.URL.String())
+			event.MustFire("data_change", event.M{"path": reqUrlPath})
 		}
 
 		c.Next()
-	}
-}
-
-func startWebKafka() {
-	configFile := flag.String("config", "config.yaml", "Config file location")
-	// kf2wbsock
-	list := kf2wbsock.ReadK2WS(*configFile)
-
-	for i := range list {
-		go func(k2ws *kf2wbsock.K2WS) {
-			err := k2ws.Start()
-			if err != nil {
-				// log.Fatalln(err)
-			}
-		}(list[i])
-	}
-
-	var chExit = make(chan os.Signal, 1)
-	signal.Notify(chExit, os.Interrupt)
-	<-chExit
-}
-
-const (
-	topic          = "anshu"
-	broker1Address = "localhost:9092"
-	// broker2Address = "localhost:9094"
-	// broker3Address = "localhost:9095"
-)
-
-func produce(ctx context.Context, title string, msg string) {
-	w := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{broker1Address},
-		Topic:   topic,
-	})
-
-	err := w.WriteMessages(ctx, kafka.Message{
-		Key: []byte(title),
-		// create an arbitrary message payload for the value
-		Value: []byte(msg),
-	})
-	if err != nil {
-		panic("could not write message " + err.Error())
 	}
 }

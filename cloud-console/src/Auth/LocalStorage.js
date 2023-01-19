@@ -5,5 +5,6 @@ export const LocalStorage = {
     get : (keyName) => {
         const value = window.localStorage.getItem(keyName);
         return value!==null ? JSON.parse(value) : {[keyName]: null};
-    }
+    },
+    clean : () => window.localStorage.clear()
 }
