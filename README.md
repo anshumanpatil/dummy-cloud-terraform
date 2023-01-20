@@ -12,11 +12,17 @@ Create,Read,Update & Delete resorces and view on web console.
 ## Installation
 
 Dummy Cloud requires [Golang](https://go.dev/) to compile terraform plugin locally.
+
 Dummy Cloud requires [Golang](https://go.dev/) to run rest client locally.
+
 Dummy Cloud requires [NodeJS](https://nodejs.org/en/) to run web console locally.
+
 # OR
+
 Dummy Cloud requires [Golang](https://go.dev/) to compile terraform plugin locally.
+
 Dummy Cloud requires [Docker](https://www.docker.com/) to run on docker(Web console & Rest API) .
+
 
 Run Web Console on localhost(React).
 
