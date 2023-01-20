@@ -24,7 +24,9 @@ Dummy Cloud requires [Golang](https://go.dev/) to compile terraform plugin local
 Dummy Cloud requires [Docker](https://www.docker.com/) to run on docker(Web console & Rest API) .
 
 
-Run Web Console on localhost(React).
+
+
+Run Web Console on local machine(React).
 
 ```sh
 git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
@@ -33,7 +35,7 @@ cd cloud-console
 npm i --verbose
 npm start
 ```
-Run Rest API backend on local (Golang-Gin).
+Run Rest API backend on local machine(Golang-Gin).
 
 ```sh
 git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
@@ -45,6 +47,15 @@ npm start
         OR
 go run .
 ```
+
+Run Rest API & Web Console both on Docker.
+
+```sh
+git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
+cd dummy-cloud-terraform
+docker-compose up
+```
+
 
 Compile and Install Terraform Plugin.
 
