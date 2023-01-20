@@ -12,41 +12,71 @@ Create,Read,Update & Delete resorces and view on web console.
 ## Installation
 
 Dummy Cloud requires [Golang](https://go.dev/) to compile terraform plugin locally.
+Dummy Cloud requires [Golang](https://go.dev/) to run rest client locally.
+Dummy Cloud requires [NodeJS](https://nodejs.org/en/) to run web console locally.
+# OR
+Dummy Cloud requires [Golang](https://go.dev/) to compile terraform plugin locally.
 Dummy Cloud requires [Docker](https://www.docker.com/) to run on docker(Web console & Rest API) .
 
-Install the dependencies and devDependencies and start the server.
+Run Web Console on localhost(React).
 
 ```sh
-cd dillinger
-npm i
-node app
+git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
+cd dummy-cloud-terraform
+cd cloud-console
+npm i --verbose
+npm start
 ```
-
-For production environments...
+Run Rest API backend on local (Golang-Gin).
 
 ```sh
-npm install --production
-NODE_ENV=production node app
+git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
+cd dummy-cloud-terraform
+cd rest-client
+go mod tidy
+npm i --verbose
+npm start 
+        OR
+go run .
 ```
 
+Compile and Install Terraform Plugin.
 
-## Tech
+```sh
+git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
+cd dummy-cloud-terraform
+cd terraform-plugin
+go mod tidy
+make install
+```
 
-Dillinger uses a number of open source projects to work properly:
+Run Terraform Plugin.
 
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-to Markdown converter
-- [jQuery] - duh
+```sh
+git clone https://github.com/anshumanpatil/dummy-cloud-terraform.git
+cd dummy-cloud-terraform
+cd terraform-plugin
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
+cd examples/bucket/datasource
+terraform init && terraform apply --auto-approve
+cd examples/bucket/resource
+terraform init && terraform apply --auto-approve
+
+cd examples/instance/datasource
+terraform init && terraform apply --auto-approve
+cd examples/instance/resource
+terraform init && terraform apply --auto-approve
+
+cd examples/network/datasource
+terraform init && terraform apply --auto-approve
+cd examples/network/resource
+terraform init && terraform apply --auto-approve
+
+cd examples/network/datasource
+terraform init && terraform apply --auto-approve
+cd examples/network/resource
+terraform init && terraform apply --auto-approve
+```
 
 ## License
 
