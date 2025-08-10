@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import axios from "axios";
-
+import { API_URL } from "../../constants";
 const Login: React.FC = () => {
     const [email, setEmail] = useState("demo@example.com");
     const [password, setPassword] = useState("password");
@@ -10,7 +10,7 @@ const Login: React.FC = () => {
     const login = async () => {
         try {
             // Simulate a login request
-            const response = await axios.post('http://localhost:8080/api/login', { email, password });
+            const response = await axios.post(`${API_URL}/login`, { email, password });
             if (response.status === 200) {
                 navigate('/home'); // Redirect to dashboard on successful login
                 return;

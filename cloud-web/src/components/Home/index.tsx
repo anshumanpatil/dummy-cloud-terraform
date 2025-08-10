@@ -6,14 +6,14 @@ import Typography from '@mui/material/Typography';
 import Infrastructure from './Infrastructure';
 import generateRandomHexColor from '../../utils/randomColor';
 import { useEffect } from 'react';
-
+import { API_URL } from "../../constants";
 const Home: React.FC = () => {
   const [infrastructureData, setInfrastructureData] = React.useState([]);
   useEffect(() => {
     const fetchData = async () => {
       if (window.isFocused) {
         try {
-          fetch('http://localhost:8080/api/infrastructures')
+          fetch(`${API_URL}/infrastructures`)
             .then(response => response.json())
             .then(data => {
               console.log(data.infrastructures);
